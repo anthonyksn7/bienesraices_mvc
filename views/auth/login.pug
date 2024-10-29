@@ -1,0 +1,30 @@
+extends ../layout/index
+
+block content
+    div(class="py-10")
+        h1(class="text-4xl text-center font-extrabold my-10") Bienes
+            span(class="font-normal") Raíces
+        h2(class="text-2xl text-center font-extrabold")= title
+
+        if errores
+            div(class="max-w-md mx-auto my-10")
+                each error in errores
+                    p(class="bg-red-600 text-white font-bold text-center uppercase text-xs p-2 mb-1")= error.msg
+
+        div(class="mt-8 max-w-md mx-auto")
+            div(class="bg-white shadow py-8 px-4")
+                form(class="space-y-5")
+
+                    div
+                        label(class="block text-gray-500 uppercase font-bold mb-3 text-sm" for="email") Registration Email
+                        input#email(class="w-full border border-gray-300 py-2 px-3 rounded-md placeholder-gray-400" placeholder="Your email" type="email" name="email")
+
+                    div
+                        label(class="block text-gray-500 uppercase font-bold mb-3 text-sm" for="password") Password
+                        input#password(class="w-full border border-gray-300 py-2 px-3 rounded-md placeholder-gray-400" placeholder="Your password" type="password" name="password")
+
+                    div(class="flex items-center justify-between")
+                        a(class="text-xs text-gray-500" href="/auth/register") Don't have an account? Register
+                        a(class="text-xs text-gray-500" href="/auth/forgot-password") Forgot password
+
+                    input(class="w-full bg-indigo-600 hover:bg-indigo-700 py-3 text-white font-bold cursor-pointer" type="submit" value="Login")
