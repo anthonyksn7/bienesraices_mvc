@@ -1,7 +1,7 @@
 import { check, validationResult } from 'express-validator'
 import User from '../models/User.js'
 import { generateId } from '../helpers/token.js'
-import { registerEmail } from '../helpers/emails.js'
+import { registerEmail, forgotPasswordEmail } from '../helpers/emails.js'
 
 const loginForm = (req, res) => {
     res.render('auth/login', {
@@ -72,6 +72,31 @@ const register = async (req, res) => {
     })
 }
 
+const confirm = async (req, res) => {
+
+    const { token } = req.params
+
+    const user = await User.findOne({ where: { token } })
+
+    if (!user) {
+        return res.render('auth/confirm-account', {
+            title: 'Error Confirming Your Account',
+            message: 'There was an error confirming your account, try again ',
+            error: true
+        })
+    }
+
+    user.token = null
+    user.confirmed = true
+
+    await user.save()
+
+    res.render('auth/confirm-account', {
+        title: 'Account Confirmed',
+        message: 'Your account has been confirmed'
+    })
+}
+
 const forgotPasswordForm = (req, res) => {
     res.render('auth/forgot-password', {
         title: 'Reset Password',
@@ -79,9 +104,63 @@ const forgotPasswordForm = (req, res) => {
     })
 }
 
+const resetPasswordForm = async (req, res) => {
+    await check('email').isEmail().withMessage('Must be a valid email address').run(req)
+
+    const result = validationResult(req)
+
+    if (!result.isEmpty()) {
+        return res.render('auth/forgot-password', {
+            title: 'Reset Password',
+            csrfToken: req.csrfToken(),
+            errors: result.array()
+        })
+    }
+
+    const { email } = req.body
+
+    const user = await User.findOne({ where: { email } })
+
+    if (!user) {
+        return res.render('auth/forgot-password', {
+            title: 'Reset Password',
+            csrfToken: req.csrfToken(),
+            errors: [{ msg: 'User does not exist' }]
+        })
+    }
+
+    user.token = generateId()
+    await user.save()
+
+    await forgotPasswordEmail({
+        name: user.name,
+        email: user.email,
+        token: user.token
+    })
+
+    res.render('templates/message', {
+
+    })
+}
+
+const verifyToken = async (req, res) => {
+
+    const { token } = req.params
+
+
+}
+
+const newPassword = async (req, res) => {
+
+}
+
 export {
     loginForm,
     registerForm,
     register,
-    forgotPasswordForm
+    confirm,
+    forgotPasswordForm,
+    resetPasswordForm,
+    verifyToken,
+    newPassword
 }
