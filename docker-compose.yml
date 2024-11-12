@@ -1,0 +1,17 @@
+services:
+  db:
+    image: mariadb:11.5.2
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_PASS}
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASS}
+    ports:
+      - ${DB_PORT}:3306
+    volumes:
+      - bienesraices-node-mvc:/var/lib/mysql
+
+volumes:
+  bienesraices-node-mvc:
+    external: true

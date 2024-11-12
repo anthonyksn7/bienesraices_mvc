@@ -1,0 +1,32 @@
+extends ../layout/index
+
+block content
+    div(class="py-10")
+        h1(class="text-4xl text-center font-extrabold my-10") Bienes
+            span.font-normal Raices
+        h2.text-2xl.text-center.font-extrabold= title
+
+        div(class="mt-8 max-w-md mx-auto")
+            div(class="shadow bg-white py-8 px-4")
+                form.space-y-5
+                    div
+                        label.block.text-gray-500.font-bold.text-sm.mb-3.uppercase(for="name") Your name
+                        input#name.w-full.placeholder-gray-400.border.border-gray-300.rounded-md.px-3.py-2(placeholder="Your name" type="text" name="name")
+
+                    div
+                        label.block.text-gray-500.font-bold.text-sm.mb-3.uppercase(for="email") Registration email
+                        input#email.w-full.placeholder-gray-400.border.border-gray-300.rounded-md.px-3.py-2(placeholder="Your email" type="email" name="email")
+
+                    div
+                        label.block.text-gray-500.font-bold.text-sm.mb-3.uppercase(for="password") Password
+                        input#password.w-full.placeholder-gray-400.border.border-gray-300.rounded-md.px-3.py-2(placeholder="Your password" type="password" name="password")
+
+                    div
+                        label.block.text-gray-500.font-bold.text-sm.mb-3.uppercase(for="repeat_password") Repeat password
+                        input#repeat_password.w-full.placeholder-gray-400.border.border-gray-300.rounded-md.px-3.py-2(placeholder="Repeat your password" type="password" name="repeat_password")
+
+                    div.flex.items-center.justify-between
+                        a.text-xs.text-gray-500(href="/auth/login") Already have an account? Log in
+                        a.text-xs.text-gray-500(href="/auth/forgot-password") Forgot your password?
+
+                    input(class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer" type="submit" value="Sign Up")
