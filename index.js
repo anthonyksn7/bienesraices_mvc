@@ -3,6 +3,7 @@ import csrf from 'csurf'
 import cookieParser from 'cookie-parser'
 import db from './config/db.js'
 import userRoutes from './routes/userRoutes.js';
+import propiedadesRoutes from './routes/propiedadesRoutes.js'
 
 const app = express()
 
@@ -25,6 +26,7 @@ app.set('view engine', 'pug')
 app.set('views', './views')
 
 app.use('/auth', userRoutes)
+app.use('/', propiedadesRoutes)
 
 const port = process.env.PORT ?? 3000
 
